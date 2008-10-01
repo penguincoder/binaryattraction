@@ -1,0 +1,9 @@
+%h1 Peoples.
+
+%ul
+  - @users.each do |user|
+    %li
+      %a{ :href => url(:edit_user, :id => user.user_name) }= user.user_name
+      %a{ :href => url(:delete_user, :id => user.user_name), :onclick => "return confirm('Are you sure?');" }
+        %img{ :src => '/images/user-trash.png' }
+

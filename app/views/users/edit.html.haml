@@ -1,0 +1,12 @@
+= error_messages @user
+
+= form :action => url(:edit_user, :id => @user.user_name) do
+  %fieldset
+    %legend== Changing settings for user <em>#{@user.user_name}</em>
+    %p
+      %label{ :for => 'password' } Password
+      = password_field :name => 'user[password]', :id => 'password'
+    %p
+      %label{ :for => 'password_confirmation' } Confirm
+      = password_field :name => 'user[password]', :id => 'password'
+    = submit 'Save'

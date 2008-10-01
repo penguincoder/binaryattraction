@@ -1,0 +1,12 @@
+= form :action => url(:sessions) do
+  %fieldset
+    %p
+      %label{ :for => 'user_name' }
+        User Name
+        = text_field :name => 'user_name', :id => 'user_name'
+    %p
+      %label{ :for => 'password' }
+        Password
+        = password_field :name => 'password', :id => 'password'
+    = submit 'Login'
+

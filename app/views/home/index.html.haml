@@ -1,0 +1,61 @@
+%style{ :type => 'text/css' }
+  :sass
+    #front_page
+      blockquote
+        :font-size 16px
+        :padding 5px 0px 5px 15px
+        :background-color #eeeeee
+        :border-top 1px dashed #9f9f9f
+        :border-right 1px dashed #9f9f9f
+        :border-bottom 1px solid #d4d4d4
+        :border-left 1px solid #d4d4d4
+        em
+          :margin-left 20px
+      h1
+        :text-align center
+
+%span#front_page
+  %h1 What this is all about
+  
+  %blockquote
+    All you young guys are on a binary system. It's either <tt>0</tt> or <tt>1</tt>.
+    %br
+    %em Larry Bell
+  
+  %blockquote
+    All you old guys are on the analog system. Join the digital revolution.
+    %br
+    %em Ross Bagwell
+  
+  %h1 Getting started
+  
+  %ul.no_list_style
+    - if logged_in?
+      %li
+        %a{ :href => url(:edit_user, :id => current_user.user_name) }
+          %img{ :src => '/images/system-lock-screen.png' }
+          Change your password
+      %li
+        %a{ :href => url(:favorite, :id => current_user.user_name) }
+          %img{ :src => '/images/emblem-favorite.png' }
+          Check your favorites
+      %li
+        %a{ :href => url(:new_photo) }
+          %img{ :src => '/images/camera-photo.png' }
+          Upload photos
+      %li
+        %a{ :href => url(:votes) }
+          %img{ :src => '/images/vote.png' }
+          Vote on new photos
+      %li
+        %a{ :href => url(:stat, :id => current_user.user_name) }
+          %img{ :src => '/images/utilities-system-monitor.png' }
+          Check stats on photos of yourself
+    - else
+      %li <img src='/images/system-users.png' /> Sign up for an account
+      %li <img src='/images/system-lock-screen.png' /> Log in if you have one
+      %li <img src='/images/emblem-favorite.png' /> Check your favorites
+      %li <img src='/images/camera-photo.png' /> Upload photos
+      %li <img src='/images/vote.png' /> Vote on new photos
+      %li <img src='/images/utilities-system-monitor.png' /> Check stats on photos of yourself
+

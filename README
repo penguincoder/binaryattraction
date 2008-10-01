@@ -1,0 +1,14 @@
+BinaryAttraction
+
+A little social program i am writing for my senior design class. This site will
+let you vote in the new digital age on photos.
+
+Dependencies:
+  * Merb
+  * Haml / Sass
+  * Merb Helpers
+  * Merb Has Flash
+  * Recaptcha account
+
+Released under GNU GPLv2
+
