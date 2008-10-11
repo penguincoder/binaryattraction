@@ -4,6 +4,7 @@ class Photo < ActiveRecord::Base
   attr_protected :email_hash
   
   has_many :votes, :dependent => :destroy
+  has_many :photo_favorites, :dependent => :destroy
   
   before_create :validate_image_sanity
   before_create :hashify_email
