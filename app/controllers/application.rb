@@ -39,7 +39,7 @@ class Application < Merb::Controller
     @user = if administrator?
       User.find_by_user_name params[:id]
     elsif logged_in? and params[:id] != current_user.user_name
-      raise NotAllowed
+      raise NotAcceptable
     else
       current_user
     end
