@@ -18,6 +18,15 @@
       #header_image
         %a{ :href => '/', :title => 'B.A. Home' }
           %img{ :src => '/images/binaryattraction.png', :alt => 'Binary Attraction' }
+      - if logged_in?
+        #header_user
+          %p
+            Welcome, 
+            == <strong>#{current_user.user_name}</strong>
+            %br
+            %a{ :href => url(:delete_session, :id => session[:user_id]), :title => 'Log out of B.A.' }
+              Log out
+              %img{ :src => '/images/system-log-out.png' }
       #tool_bar
         - menu_items.each do |menu_item|
           %a{ :href => menu_item[:href], :title => menu_item[:title] }
@@ -25,10 +34,6 @@
             = menu_item[:name]
           - if menu_item != menu_items.last
             |
-        - if logged_in?
-          |
-          %a{ :href => url(:delete_session, :id => session[:user_id]), :title => 'Log out of B.A.' }
-            %img{ :src => '/images/system-log-out.png' }
       #content
         = catch_content :for_layout
       #footer
@@ -36,3 +41,5 @@
         %a{ :href => 'http://penguincoder.org' } penguincoder
         | Usage of this site requires
         %a{ :href => '/acceptable_use' } acceptable use policy
+        |
+        %a{ :href => '/disclaimer' } disclaimer
