@@ -41,7 +41,7 @@ module Merb
     def pagination(div_name, base_url)
       @pagination_block = div_name
       @base_pagination_url = base_url
-      partial 'home/pagination_script'
+      partial 'home/pagination'
     end
   end
 end

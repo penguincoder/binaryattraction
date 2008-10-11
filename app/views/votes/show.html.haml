@@ -1,7 +1,5 @@
-= pagination 'scrolling_photo_block', url(:vote, :id => @user.user_name)
-
 #scrolling_photo_block_container
-  = partial 'home/pagination_navigation'
+  = pagination 'scrolling_photo_block', url(:vote, :id => @user.user_name)
   #scrolling_photo_block
     = partial 'votes/stats_for_user'
 

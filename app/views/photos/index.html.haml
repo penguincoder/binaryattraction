@@ -1,8 +1,6 @@
 %h1 Photos of oneness
 
-= pagination 'photo_browser', url(:photos)
-
-#browser_container.centered
-  = partial 'home/pagination_navigation'
+#photo_browser_container
+  = pagination 'photo_browser', url(:photos)
   #photo_browser
     = partial 'photos/photo_browser'
