@@ -34,7 +34,7 @@ class Photos < Application
   end
   
   def delete
-    raise NotAllowed unless request.xhr?
+    raise NotAcceptable unless request.xhr?
     if current_user and current_user.administrator?
       render
     else
