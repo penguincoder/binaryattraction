@@ -1,3 +1,8 @@
 %h1 Your favorite photos
 
-= partial 'photos/photo_browser'
+= pagination 'photo_browser', url(:favorites, :id => current_user.user_name)
+
+#browser_container.centered
+  = partial 'home/pagination_navigation'
+  #photo_browser
+    = partial 'photos/photo_browser'

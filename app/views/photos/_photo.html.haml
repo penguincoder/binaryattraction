@@ -1,5 +1,60 @@
+:javascript
+  function add_favorite(pid)
+  {
+    new Ajax.Request('#{url(:favorites)}?photo_id=' + pid, { onSuccess: function(){ $('favorite_add').hide(); $('favorite_remove').show(); new Effect.Highlight($('favorites')); } });
+  }
+  function remove_favorite(del_url)
+  {
+    new Ajax.Request(del_url, { onSuccess: function(){ $('favorite_remove').hide(); $('favorite_add').show(); new Effect.Highlight($('favorites')); } });
+  }
+  function transition_out_controls()
+  {
+    if($('to_be_unvoted').style.display == 'none')
+      return false;
+    new Effect.DropOut($('to_be_unvoted'));
+    setTimeout('transition_in_controls()', 1000);
+  }
+  function transition_in_controls()
+  {
+    new Effect.Appear($('to_be_voted'));
+  }
+
+%style{ :type => "text/css" }
+  :sass
+    #outer_vote_container
+      :height 30px
+    #photo_controls
+      :padding 3px 10px 3px 10px
+      :border 1px solid #c17d11
+      :background-color #e9b96e
+      :margin 5px 0px 5px 0px
+      img
+        :vertical-align middle
+      a
+        :font-weight bold
+        :text-decoration none
+        :color #8f5902
+        &:hover
+          :color #5e3a01
+    #favorites
+      :padding-left 3px
+      :padding-right 3px
+
 %div.centered{ :style => "width: #{@photo.width rescue 50}px" }
   - if @photo and @photo.exist?
+    #photo_controls
+      - unless Vote.voted_for?(@photo, current_user) or params[:controller] =~ /vote/i
+        %span#to_be_unvoted
+          %a{ :href => '#', :onclick => "transition_out_controls(); return false;" } Vote!
+          |
+      - if logged_in?
+        %span#favorites
+          %span#favorite_add{ :style => (current_user.photo_favorites.detect { |f| f.photo_id == @photo.id }.nil? ? '' : "display: none;") }
+            %a{ :href => '#', :onclick => "add_favorite(#{@photo.id}); return false;" }
+              Add as favorite
+          %span#favorite_remove{ :style => (current_user.photo_favorites.detect { |f| f.photo_id == @photo.id }.nil? ? "display: none;" : '') }
+            %a{ :href => '#', :onclick => "remove_favorite('#{url(:favorite, :id => @photo.id)}?_method=delete'); return false;" }
+              Remove favorite
     %img{ :src => @photo.pathname, :alt => @photo.filename, :width => @photo.width, :height => @photo.height }
   - else
     %img{ :src => '/images/image-missing.png', :alt => 'Missing File' }
