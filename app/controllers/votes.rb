@@ -6,6 +6,10 @@ class Votes < Application
     per_page = 4
     @votes = @user.votes.find :all, :limit => 4, :offset => (@page * 4)
     @page_count = (@user.votes.size.to_f / per_page.to_f).ceil
+    if @votes.empty?
+      flash[:notice] = 'You need to vote, first'
+      redirect url(:new_vote)
+    end
     if request.xhr?
       partial 'votes/stats_for_user'
     else
