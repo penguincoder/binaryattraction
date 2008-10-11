@@ -151,12 +151,6 @@ h1 img {
   min-height: 35px;
 }
 
-#photo_browser {
-  height: 460px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
 .stat_box {
   width: 105px;
   float: left;
@@ -177,12 +171,24 @@ h1 img {
   padding: 0px;
 }
 
+#photo_browser {
+  height: 420px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#inner_photo_browser {
+  width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .photo_browser_box {
   width: 105px;
   height: 105px;
   float: left;
-  margin-left: 20px;
-  margin-bottom: 10px;
+  margin-left: auto;
+  margin-bottom: auto;
 }
 
 .photo_browser_box img {
