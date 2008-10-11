@@ -10,4 +10,8 @@ class Home < Application
   def hall_of_fame
     render
   end
+  
+  def disclaimer
+    render
+  end
 end
