@@ -9,17 +9,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 4) do
+ActiveRecord::Schema.define(:version => 5) do
+
+  create_table "photo_favorites", :force => true do |t|
+    t.integer "photo_id"
+    t.integer "user_id"
+  end
+
+  add_index "photo_favorites", ["user_id"], :name => "index_photo_favorites_on_user_id"
+  add_index "photo_favorites", ["photo_id"], :name => "index_photo_favorites_on_photo_id"
 
   create_table "photos", :force => true do |t|
     t.string   "filename"
-    t.integer  "user_id"
-    t.string   "owner_token"
+    t.string   "content_type"
+    t.string   "email_hash"
+    t.integer  "width"
+    t.integer  "height"
     t.datetime "created_at"
+    t.boolean  "approved"
   end
 
-  add_index "photos", ["owner_token"], :name => "index_photos_on_owner_token"
-  add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
+  add_index "photos", ["email_hash"], :name => "index_photos_on_email_hash"
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id"
@@ -41,9 +51,11 @@ ActiveRecord::Schema.define(:version => 4) do
   create_table "votes", :force => true do |t|
     t.integer "photo_id"
     t.integer "user_id"
+    t.string  "session_id"
     t.boolean "vote"
   end
 
+  add_index "votes", ["session_id"], :name => "index_votes_on_session_id"
   add_index "votes", ["user_id"], :name => "index_votes_on_user_id"
   add_index "votes", ["photo_id"], :name => "index_votes_on_photo_id"
 

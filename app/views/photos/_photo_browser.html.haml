@@ -1,0 +1,8 @@
+#inner_photo_browser{ :style => (request.xhr? ? 'display: none;' : '') }
+- if @photos.nil? or @photos.empty?
+  %h3 None!
+- else
+  - @photos.each_with_index do |photo, index|
+    %div.photo_browser_box
+      %a{ :href => url(:photo, photo) }
+        %img{ :src => photo_url(photo, 100, 100) }

@@ -11,8 +11,21 @@
         :border-left 1px solid #d4d4d4
         em
           :margin-left 20px
-      h1
-        :text-align center
+      ul
+        :width 400px
+      li
+        :padding 3px 10px 3px 10px
+        :border 1px solid #c17d11
+        :background-color #e9b96e
+        :margin 10px
+        img
+          :vertical-align middle
+        a
+          :font-weight bold
+          :text-decoration none
+          :color #8f5902
+          &:hover
+            :color #5e3a01
 
 %span#front_page
   %h1 What this is all about
@@ -29,33 +42,9 @@
   
   %h1 Getting started
   
-  %ul.no_list_style
-    - if logged_in?
+  %ul.no_list_style.centered
+    - menu_items.each do |menu_item|
       %li
-        %a{ :href => url(:edit_user, :id => current_user.user_name) }
-          %img{ :src => '/images/system-lock-screen.png' }
-          Change your password
-      %li
-        %a{ :href => url(:favorite, :id => current_user.user_name) }
-          %img{ :src => '/images/emblem-favorite.png' }
-          Check your favorites
-      %li
-        %a{ :href => url(:new_photo) }
-          %img{ :src => '/images/camera-photo.png' }
-          Upload photos
-      %li
-        %a{ :href => url(:votes) }
-          %img{ :src => '/images/vote.png' }
-          Vote on new photos
-      %li
-        %a{ :href => url(:stat, :id => current_user.user_name) }
-          %img{ :src => '/images/utilities-system-monitor.png' }
-          Check stats on photos of yourself
-    - else
-      %li <img src='/images/system-users.png' /> Sign up for an account
-      %li <img src='/images/system-lock-screen.png' /> Log in if you have one
-      %li <img src='/images/emblem-favorite.png' /> Check your favorites
-      %li <img src='/images/camera-photo.png' /> Upload photos
-      %li <img src='/images/vote.png' /> Vote on new photos
-      %li <img src='/images/utilities-system-monitor.png' /> Check stats on photos of yourself
-
+        %a{ :href => menu_item[:href], :title => menu_item[:name] }
+          %img{ :src => menu_item[:img] }
+          = menu_item[:title]

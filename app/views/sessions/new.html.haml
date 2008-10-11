@@ -1,5 +1,23 @@
-= form :action => url(:sessions) do
-  %fieldset
+:javascript
+  function login()
+  {
+    new Ajax.Request($('login_form').action,
+    {
+      parameters: Form.serialize($('login_form')),
+      onCreate: function(){ $('indicator').show(); },
+      onComplete: function(){ $('indicator').hide(); },
+      onSuccess: function(){ window.location.href = '/'; },
+      onFailure: function(){
+        new Effect.Shake($('fieldset'));
+        $('password').value = '';
+        $('password').focus();
+      }
+    });
+  }
+
+= form :action => url(:sessions), :id => 'login_form', :onsubmit => "login(); return false;" do
+  %fieldset#fieldset{ :style => "width: 250px;" }
+    %legend Papers, comrade?
     %p
       %label{ :for => 'user_name' }
         User Name
@@ -9,4 +27,4 @@
         Password
         = password_field :name => 'password', :id => 'password'
     = submit 'Login'
-
+    = indicator

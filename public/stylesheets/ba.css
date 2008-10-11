@@ -22,16 +22,24 @@ a, a:visited, a:hover {
 
 fieldset {
   width: 500px;
-  margin-left: 25px;
+  margin: 15px auto 15px auto;
 }
 
 label {
   margin-right: 5px;
 }
 
+h1 {
+  text-align: center;
+}
+
+h1 img {
+  vertical-align: middle;
+}
+
 #container {
   margin: 0 auto;
-  width: 750px;
+  width: 775px;
   position: relative;
   background: #ffffff;
   padding: 0px;
@@ -59,17 +67,15 @@ label {
   border-bottom: 1px solid #a40000;
 }
 
-#header {
-  height: 120px;
-  padding-top: 10px;
-}
-
 #header_image {
-  margin-left: 30px;
+  width: 446px;
+  margin: 0px auto;
+  padding: 10px 0px;
 }
 
 #tool_bar {
   margin-top: 7px;
+  margin-bottom: 10x;
   padding: 3px 10px 3px 10px;
   border-top: 1px solid #c17d11;
   border-bottom: 1px solid #c17d11;
@@ -119,3 +125,129 @@ label {
 
 #recaptcha_container {
   margin: 10px 0px 10px 0px;
+}
+
+.centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#mini_container {
+  width: 650px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  min-height: 35px;
+}
+
+#photo_browser {
+  height: 460px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.stat_box {
+  width: 105px;
+  float: left;
+  margin-left: 20px;
+  min-height: 30px;
+  border: 1px solid #555753;
+  background-color: #babdb6;
+}
+
+.stat_box img {
+  display: block;
+  margin: 3px auto 3px auto;
+}
+
+.stat_box p {
+  text-align: center;
+  margin: 3px;
+  padding: 0px;
+}
+
+.photo_browser_box {
+  width: 105px;
+  height: 105px;
+  float: left;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.photo_browser_box img {
+  display: block;
+  margin: auto;
+  vertical-align: middle;
+}
+
+#vote_error {
+  width: 400px;
+  padding: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#main_photo_container p {
+  text-align: center;
+}
+
+#vote_controls {
+  border: 1px solid #c17d11;
+  background-color: #e9b96e;
+  width: 66px;
+  height: 32px;
+}
+
+#vote_controls img {
+  padding: 5px;
+  width: 22px;
+  height: 22px;
+  float: left;
+}
+
+.user_stat_chart {
+  float: left;
+  width: 300px;
+  height: 200px;
+  margin: 0px 10px 5px 25px;
+  border: 1px solid #8f5902;
+}
+
+#scrolling_photo_block_container {
+  margin-right: 5px;
+  margin-bottom: 5px;
+  float: right;
+  width: 282px;
+  height: 336px;
+}
+
+#pagination_navigation {
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#pagination_navigation p {
+  text-align: center;
+}
+
+#pagination_navigation img {
+  display: inline;
+  vertical-align: middle;
+}
+
+#scrolling_photo_block_container p {
+  text-align: center;
+  margin: 5px;
+}
+
+#scrolling_photo_block img {
+  display: block;
+  margin: 5px auto 5px auto;
+  padding: 0px;
+}
+
+#scrolling_photo_block td, #scrolling_photo_block table {
+  border: 1px solid #8f5902;
+  padding: 0px;
+  margin: 0px;
+}

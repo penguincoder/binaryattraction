@@ -1,11 +1,25 @@
 Gem.clear_paths
 Gem.path.unshift(Merb.root / "gems")
 $LOAD_PATH.unshift(Merb.root / "lib")
-# Merb.push_path(:lib, Merb.root / "lib") # uses **/*.rb as path glob
 
-dependencies 'haml', 'sass', 'merb_helpers', 'merb_has_flash', 'digest/sha1', 'recaptcha'
+dependencies 'haml', 'sass', 'merb_helpers', 'merb_has_flash', 'digest/sha1', 'merb-mailer', 'recaptcha'
+require 'RMagick'
+require 'memcache'
+require 'memcache_util'
+require 'gchart'
 
 Merb::BootLoader.after_app_loads do
+  config_path = File.join(Merb.root, 'config', 'memcache.yml')
+  if File.file?(config_path) and File.readable?(config_path)
+    memcache_connection_str = YAML.load(File.read(config_path))
+  else
+    memcache_connection_str = 'localhost:11211'
+  end
+  CACHE = MemCache.new memcache_connection_str
+  
+  Merb::Mailer.config = { :sendmail_path => '/usr/sbin/sendmail' }
+  Merb::Mailer.delivery_method = :sendmail
+  
   recaptcha_path = File.join(Merb.root, 'config', 'recaptcha.yml')
   if File.file?(recaptcha_path) and File.readable?(recaptcha_path)
     rc = YAML::load_file(recaptcha_path)

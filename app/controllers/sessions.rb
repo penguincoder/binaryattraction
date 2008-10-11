@@ -9,19 +9,31 @@ class Sessions < Application
   
   def create
     user = User.find_by_user_name params[:user_name]
-    if user.authenticated_against?(params[:password])
+    if user and user.authenticated_against?(params[:password])
       session[:user_id] = user.id
-      flash[:notice] = 'Great success!'
-      redirect '/'
+      if request.xhr?
+        render '', :status => 200
+      else
+        flash[:notice] = 'Great success!'
+        redirect '/'
+      end
     else
-      flash[:error] = 'Login failed'
-      render :new
+      if request.xhr?
+        render '', :status => 401
+      else
+        flash.now[:error] = 'Login failed'
+        render :new
+      end
     end
   end
   
   def delete
     reset_session
-    flash[:notice] = 'Goodbye!'
-    redirect '/'
+    if request.xhr?
+      render '', :status => 200
+    else
+      flash[:notice] = 'Goodbye!'
+      redirect '/'
+    end
   end
 end

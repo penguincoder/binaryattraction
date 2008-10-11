@@ -1,1 +1,8 @@
-You're in index of the Photos controller.
+%h1 Photos of oneness
+
+= pagination 'photo_browser', url(:photos)
+
+#browser_container.centered
+  = partial 'home/pagination_navigation'
+  #photo_browser
+    = partial 'photos/photo_browser'

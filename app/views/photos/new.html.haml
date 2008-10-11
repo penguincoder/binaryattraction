@@ -1,0 +1,15 @@
+= error_messages @photo
+
+= form_for @photo do
+  %fieldset
+    %legend Upload A Photo
+    %p
+      %label{ :for => 'photo[email]' } Email
+      = text_field :name => 'photo[email]', :id => 'photo[email]'
+      %small Optional
+    %p
+      %label{ :for => 'photo[file]' } Image
+      = file_field :name => 'photo[file]', :id => 'photo[file]'
+      %small 3MB limit, JPG, PNG, GIF, etc.
+    = submit 'Save', :onclick => "$('indicator').show()"
+    = indicator

@@ -1,4 +1,5 @@
 class Users < Application
+  before :fetch_allowed_user, :only => [ :show, :edit, :update, :delete ]
   before :prepare_user, :only => [ :show, :edit, :update, :delete ]
   
   include Ambethia::ReCaptcha::Controller
@@ -59,13 +60,6 @@ class Users < Application
   protected
   
   def prepare_user
-    @user = if current_user.administrator?
-      User.find_by_user_name params[:id]
-    else
-      current_user
-    end
-    raise NotFound if @user.nil?
     @user.attributes = params[:user] if params[:user] and request.post?
-    true
   end
 end

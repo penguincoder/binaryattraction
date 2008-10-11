@@ -1,0 +1,5 @@
+%div.centered{ :style => "width: #{@photo.width rescue 50}px" }
+  - if @photo and @photo.exist?
+    %img{ :src => @photo.pathname, :alt => @photo.filename, :width => @photo.width, :height => @photo.height }
+  - else
+    %img{ :src => '/images/image-missing.png', :alt => 'Missing File' }

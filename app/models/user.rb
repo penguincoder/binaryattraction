@@ -9,7 +9,10 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :user_name
   validates_format_of :user_name, :with => /[\w_-]+/
   
-  has_many :votes, :dependent => :destroy
+  has_many :votes, :dependent => :destroy, :order => 'votes.photo_id ASC'
+  has_many :photos, :dependent => :destroy, :through => :votes
+  has_many :photo_favorites, :dependent => :destroy
+  has_many :favorite_photos, :through => :photo_favorites, :class_name => 'Photo', :source => :photo
   
   before_validation :saltify_password
   
@@ -24,6 +27,11 @@ class User < ActiveRecord::Base
   
   def self.salted_string(str)
     Digest::SHA1.hexdigest("#{Merb::Config[:session_secret_key]}--#{str}--")
+  end
+  
+  def voted_for?(photo)
+    pid = photo.respond_to?('id') ? photo.id : photo
+    self.votes.detect { |v| v.photo_id == pid }
   end
   
   protected

@@ -1,0 +1,63 @@
+#main_photo_container
+  = partial 'photos/photo'
+
+  - v = Vote.voted_for? @photo, current_user
+  - if v
+    #mini_container.centered
+      %div.stat_box
+        %p
+          %strong You voted
+          %br
+          %tt= v.to_i
+      
+      %div.stat_box
+        %p
+          %strong Total <tt>0</tt>
+          %br
+          = @photo.zero_votes
+      
+      %div.stat_box
+        %p
+          %strong Total <tt>1</tt>
+          %br
+          %tt= @photo.one_votes
+      
+      %div.stat_box
+        %p
+          %strong Total Votes
+          %br
+          %tt= @photo.votes.size
+      
+      %div.stat_box
+        %p
+          %strong Oneness
+          %br
+          %tt= @photo.oneness
+    
+    %br{ :style => 'clear: both' }
+    
+    %div.centered{ :style => "width: 400px;"}
+      = vote_count @photo
+    
+  - else
+    %style{ :type => 'text/css' }
+      :sass
+        #outer_vote_container
+          :height 30px
+    
+    #outer_vote_container
+      %div{ :style => 'display: none', :id => 'to_be_voted' }
+        = partial 'votes/vote_controls'
+      #to_be_unvoted
+        %p
+          %a{ :href => '#', :onclick => "transition_out_controls(); return false;" } Vote on this photo now!
+        :javascript
+          function transition_out_controls()
+          {
+            new Effect.DropOut($('to_be_unvoted'));
+            setTimeout('transition_in_controls()', 1000);
+          }
+          function transition_in_controls()
+          {
+            new Effect.Appear($('to_be_voted'));
+          }

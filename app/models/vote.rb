@@ -2,7 +2,11 @@ class Vote < ActiveRecord::Base
   belongs_to :photo
   belongs_to :user
   
-  validates_presence_of :vote
+  validate :unique_for_user
+  validates_presence_of :photo_id
+  
+  attr_protected :user_id
+  attr_protected :session_id
   
   ##
   # Checks if this vote is anonymous, or not an authenticated User vote.
@@ -30,5 +34,45 @@ class Vote < ActiveRecord::Base
   #
   def one?
     self.to_i == 1
+  end
+  
+  ##
+  # Checks if a user has voted for a Photo. If you pass a User for user it will
+  # check for an authenticated user, else it will look for an anonymous vote.
+  #
+  def self.voted_for?(photo, user)
+    c = [ 'photo_id = :pid' ]
+    v = { :pid => (photo.respond_to?('id') ? photo.id : photo) }
+    if user.respond_to?('id')
+      c << 'user_id = :uid'
+      v[:uid] = user.id
+    else
+      c << 'session_id = :uid'
+      v[:uid] = user
+    end
+    self.find :first, :conditions => [ c.join(' AND '), v ]
+  end
+  
+  ##
+  # Does a quick find and collect on the cast votes so you can find a
+  def self.voted_photo_ids(user)
+    c = if user.respond_to?('id')
+      "votes.user_id = #{user.id}"
+    else
+      "votes.session_id = '#{user}'"
+    end
+    self.find(:all, :conditions => c, :select => 'photo_id').collect { |v| v.photo_id }
+  end
+  
+  protected
+  
+  def unique_for_user
+    if self.user.to_s.empty? and self.session_id.empty?
+      self.errors.add(:vote, 'must have an owner')
+    elsif self.user and Vote.voted_for?(self.photo, self.user)
+      self.errors.add(:vote, 'has already been collected for this photo')
+    elsif self.session_id and Vote.voted_for?(self.photo, self.session_id)
+      self.errors.add(:anonymous, 'vote has already been collected')
+    end
   end
 end

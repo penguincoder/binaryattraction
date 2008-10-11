@@ -1,0 +1,9 @@
+- unless @photo.nil? or !@photo.exist?
+  #vote_error.error.centered{ :style => "display: none" }
+  #vote_controls.centered
+    %a{ :href => '#', :onclick => "vote('#{url(:votes, :method => :post, :photo_id => @photo.id, :one => false)}'); return false;", :title => '0-able' }
+      %img{ :src => '/images/0.png' }
+    %a{ :href => '#', :onclick => "vote('#{url(:votes, :method => :post, :photo_id => @photo.id, :one => true)}'); return false;", :title => '1-able' }
+      %img{ :src => '/images/1.png' }
+- else
+  %p Either you are the master of voting or there are no photos to be voted upon.

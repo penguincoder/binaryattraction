@@ -1,0 +1,20 @@
+:javascript
+  page = #{@page};
+  page_count = #{@page_count};
+  function scroll_box(newpage)
+  {
+    np = parseInt(newpage);
+    if(np < 0)
+      np = 0;
+    if(np >= page_count)
+      np = page_count - 1;
+    if(np == page)
+      return;
+    setTimeout("update_scroll_box(" + np + ");", 800);
+    new Effect.DropOut($('inner_#{@pagination_block}'));
+  }
+  function update_scroll_box(newpage)
+  {
+    page = newpage;
+    new Ajax.Updater('#{@pagination_block}', '#{@base_pagination_url}#{@base_pagination_url =~ /\?/ ? '&' : '?'}page=' + page, { method: 'get', onComplete: function(){ new Effect.Appear($('inner_#{@pagination_block}')); }, onSuccess: function(){ $('pagenum').innerHTML = parseInt(page) + 1; } });
+  }

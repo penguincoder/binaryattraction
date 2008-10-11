@@ -6,4 +6,8 @@ class Home < Application
   def acceptable_use
     render
   end
+  
+  def hall_of_fame
+    render
+  end
 end

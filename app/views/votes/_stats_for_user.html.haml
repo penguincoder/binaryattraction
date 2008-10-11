@@ -1,0 +1,25 @@
+- dim = 100
+#inner_scrolling_photo_block{ :style => (request.xhr? ? 'display: none;' : '') }
+  %table{ :cellspacing => 0, :cellpadding => 0 }
+    %tr
+      %td{ :style => "width: 140px; height: 150px;" }
+        - if @votes[0]
+          %a{ :href => url(:photo, @votes[0].photo), :onclick => 'window.open(this.href);return false;' }
+            %img{ :src => photo_url(@votes[0].photo, dim, dim) }
+          %p== <tt>#{@votes[0].to_i} / #{@votes[0].photo.oneness}</tt>
+      %td{ :style => "width: 140px; height: 150px;" }
+        - if @votes[1]
+          %a{ :href => url(:photo, @votes[1].photo), :onclick => 'window.open(this.href);return false;' }
+            %img{ :src => photo_url(@votes[1].photo, dim, dim) }
+          %p== <tt>#{@votes[1].to_i} / #{@votes[1].photo.oneness}</tt>
+    %tr
+      %td{ :style => "width: 140px; height: 150px;" }
+        - if @votes[2]
+          %a{ :href => url(:photo, @votes[2].photo), :onclick => 'window.open(this.href);return false;' }
+            %img{ :src => photo_url(@votes[2].photo, dim, dim) }
+          %p== <tt>#{@votes[2].to_i} / #{@votes[2].photo.oneness}</tt>
+      %td{ :style => "width: 140px; height: 150px;" }
+        - if @votes[3]
+          %a{ :href => url(:photo, @votes[3].photo), :onclick => 'window.open(this.href);return false;' }
+            %img{ :src => photo_url(@votes[3].photo, dim, dim) }
+          %p== <tt>#{@votes[3].to_i} / #{@votes[3].photo.oneness}</tt>
