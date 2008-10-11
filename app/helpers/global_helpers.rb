@@ -9,9 +9,9 @@ module Merb
     end
     
     def photo_url(photo, w = nil, h = nil)
-      w = photo.width if w.nil? or w > photo.width
-      h = photo.height if h.nil? or h > photo.height
-      url :controller => 'photos', :action => 'thumbnail', :width => w, :height => h, :id => photo.id
+      w = photo.width if w.nil? or w.to_i > photo.width
+      h = photo.height if h.nil? or h.to_i > photo.height
+      "/photos/#{photo.id}/thumbnail?width=#{w}&height=#{h}"
     end
     
     def indicator
@@ -38,8 +38,8 @@ module Merb
       @menu_items
     end
     
-    def pagination(block_name, base_url)
-      @pagination_block = block_name
+    def pagination(div_name, base_url)
+      @pagination_block = div_name
       @base_pagination_url = base_url
       partial 'home/pagination_script'
     end
