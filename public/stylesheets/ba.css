@@ -39,7 +39,7 @@ h1 img {
 
 #container {
   margin: 0 auto;
-  width: 775px;
+  width: 750px;
   position: relative;
   background: #ffffff;
   padding: 0px;
@@ -71,6 +71,18 @@ h1 img {
   width: 446px;
   margin: 0px auto;
   padding: 10px 0px;
+}
+
+#header_user p, #header_user img {
+  text-align: right;
+  margin: 0px;
+  padding: 0px;
+}
+
+#header_user {
+  position: absolute;
+  right: 5px;
+  top: 10px;
 }
 
 #tool_bar {
