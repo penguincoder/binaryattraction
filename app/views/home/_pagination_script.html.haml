@@ -8,7 +8,7 @@
       np = 0;
     if(np >= page_count)
       np = page_count - 1;
-    if(np == page or page_count == 0)
+    if(np == page || page_count == 0)
       return;
     setTimeout("update_scroll_box(" + np + ");", 800);
     new Effect.DropOut($('inner_#{@pagination_block}'));
