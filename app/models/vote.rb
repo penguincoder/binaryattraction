@@ -8,6 +8,9 @@ class Vote < ActiveRecord::Base
   attr_protected :user_id
   attr_protected :session_id
   
+  after_create :update_photo_stats
+  after_destroy :update_photo_stats
+  
   ##
   # Checks if this vote is anonymous, or not an authenticated User vote.
   #
@@ -54,7 +57,9 @@ class Vote < ActiveRecord::Base
   end
   
   ##
-  # Does a quick find and collect on the cast votes so you can find a
+  # Does a quick find and collect on the cast votes so you can find all voted
+  # photo ids.
+  #
   def self.voted_photo_ids(user)
     c = if user.respond_to?('id')
       "votes.user_id = #{user.id}"
@@ -66,6 +71,9 @@ class Vote < ActiveRecord::Base
   
   protected
   
+  ##
+  # Make sure you can't vote on a photo more than once.
+  #
   def unique_for_user
     if self.user.to_s.empty? and self.session_id.empty?
       self.errors.add(:vote, 'must have an owner')
@@ -74,5 +82,24 @@ class Vote < ActiveRecord::Base
     elsif self.session_id and Vote.voted_for?(self.photo, self.session_id)
       self.errors.add(:anonymous, 'vote has already been collected')
     end
+  end
+  
+  ##
+  # Recalc the stats in the Photo for specific stats don't have to query the
+  # database.
+  #
+  def update_photo_stats
+    v = if self.frozen?
+      -1
+    else
+      1
+    end
+    self.photo.votes_count += v
+    if self.zero?
+      self.photo.zero_votes += v
+    else
+      self.photo.one_votes += v
+    end
+    self.photo.save
   end
 end

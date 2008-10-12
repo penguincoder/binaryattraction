@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 5) do
+ActiveRecord::Schema.define(:version => 6) do
 
   create_table "photo_favorites", :force => true do |t|
     t.integer "photo_id"
@@ -27,6 +27,10 @@ ActiveRecord::Schema.define(:version => 5) do
     t.integer  "height"
     t.datetime "created_at"
     t.boolean  "approved"
+    t.integer  "votes_count",  :default => 0
+    t.integer  "one_votes",    :default => 0
+    t.integer  "zero_votes",   :default => 0
+    t.float    "oneness"
   end
 
   add_index "photos", ["email_hash"], :name => "index_photos_on_email_hash"

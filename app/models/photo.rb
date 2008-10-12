@@ -8,52 +8,16 @@ class Photo < ActiveRecord::Base
   
   before_create :validate_image_sanity
   before_create :hashify_email
+  before_save :set_oneness
   
   after_create :create_directories
   before_destroy :destroy_directories
   
   ##
-  # Returns the biggest dimension of this model.
-  #
-  def max_dimension
-    if self.width > self.height
-      self.width
-    else
-      self.height
-    end
-  end
-  
-  ##
-  # Determines how 'oneable' this photo is. Should be cached in model later.
-  #
-  def oneness
-    os = one_votes
-    "%.1f%%" % (os.to_f / self.votes.size.to_f * 100.0)
-  end
-  
-  ##
-  # Abstraction to determine the number of positive votes on this photo. Should
-  # be replaced with a cached counter variable.
-  #
-  def one_votes
-    self.votes.count :id, :conditions => [ 'vote = ?', true ]
-  end
-  
-  ##
-  # Abstraction to determine the number of negative votes on this photo. Should
-  # be replaced with a cached counter variable.
-  #
-  def zero_votes
-    self.votes.size - self.one_votes
-  end
-  
-  ##
   # Returns the path of the image relative to Merb's root.
   #
   def relative_directory
-    fkey = id.to_s[0,2]
-    skey = id.to_s[0,4]
-    "/photos/#{fkey}/#{skey}/#{id}"
+    "/photos/#{id.to_s[0,2]}/#{id.to_s[0,4]}/#{id}"
   end
   
   ##
@@ -162,5 +126,12 @@ class Photo < ActiveRecord::Base
   def hashify_email
     email_hash = User.salted_string(email) unless email.to_s.empty?
     true
+  end
+  
+  ##
+  # Regenerates the calculated value of oneness.
+  #
+  def set_oneness
+    self.oneness = (self.one_votes.to_f / self.votes_count.to_f * 100.0)
   end
 end
