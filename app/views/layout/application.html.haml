@@ -21,12 +21,15 @@
       - if logged_in?
         #header_user
           %p
-            Welcome, 
+            Welcome,
             == <strong>#{current_user.user_name}</strong>
             %br
             %a{ :href => url(:delete_session, :id => session[:user_id]), :title => 'Log out of B.A.' }
               Log out
               %img{ :src => '/images/system-log-out.png' }
+            - if administrator?
+              %br
+              %a{ :href => url(:moderate_photos) } Moderate
       #tool_bar
         - menu_items.each do |menu_item|
           %a{ :href => menu_item[:href], :title => menu_item[:title] }

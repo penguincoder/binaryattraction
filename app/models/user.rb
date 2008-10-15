@@ -9,10 +9,12 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :user_name
   validates_format_of :user_name, :with => /[\w_-]+/
   
+  has_many :photos, :dependent => :destroy
   has_many :votes, :dependent => :destroy, :order => 'votes.photo_id ASC'
-  has_many :photos, :dependent => :destroy, :through => :votes
+  has_many :voted_photos, :through => :votes, :class_name => 'Photo', :source => :photo
   has_many :photo_favorites, :dependent => :destroy
   has_many :favorite_photos, :through => :photo_favorites, :class_name => 'Photo', :source => :photo
+  has_many :photo_flags, :dependent => :destroy
   
   before_validation :saltify_password
   

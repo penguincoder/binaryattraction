@@ -3,8 +3,12 @@ class Photo < ActiveRecord::Base
   attr_accessor :file
   attr_protected :email_hash
   
+  validates_presence_of :user_id
+  
+  belongs_to :user
   has_many :votes, :dependent => :destroy
   has_many :photo_favorites, :dependent => :destroy
+  has_many :photo_flags, :dependent => :destroy
   
   before_create :validate_image_sanity
   before_create :hashify_email
@@ -41,6 +45,10 @@ class Photo < ActiveRecord::Base
     "#{self.relative_directory}/#{self.filename}"
   end
   
+  ##
+  # Finds a Photo that the requested user can vote on by checking it against
+  # all of the photos previously voted.
+  #
   def self.next_available_votable_photo(user)
     pids = Vote.voted_photo_ids(user)
     c = if pids.empty?
@@ -49,6 +57,18 @@ class Photo < ActiveRecord::Base
       "photos.id NOT IN (#{pids.join(',')})"
     end
     self.find :first, :conditions => c, :order => 'id ASC'
+  end
+  
+  ##
+  # Checks to see if a User or anonymous user has flagged a Photo as unsuitable.
+  #
+  def flagged?(user)
+    f = if user.respond_to?('id')
+      self.photo_flags.find :first, :conditions => "photo_flags.user_id = #{user.id}"
+    else
+      self.photo_flags.find :first, :conditions => "photo_flags.session_id = #{user}"
+    end
+    !f.nil?
   end
   
   protected
@@ -132,6 +152,10 @@ class Photo < ActiveRecord::Base
   # Regenerates the calculated value of oneness.
   #
   def set_oneness
-    self.oneness = (self.one_votes.to_f / self.votes_count.to_f * 100.0)
+    if self.votes_count == 0
+      self.oneness = 0
+    else
+      self.oneness = (self.one_votes.to_f / self.votes_count.to_f * 100.0)
+    end
   end
 end

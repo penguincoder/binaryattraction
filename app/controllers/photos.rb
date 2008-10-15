@@ -1,8 +1,8 @@
 class Photos < Application
-  before :logged_in?, :only => [ :new, :create, :delete ]
-  before :administrator?, :only => [ :delete ]
+  before :logged_in?, :only => [ :new, :create, :destroy ]
+  before :administrator?, :only => [ :destroy, :approve, :moderate ]
   before :make_photo, :only => [ :new, :create ]
-  before :fetch_photo, :only => [ :show, :delete, :thumbnail ]
+  before :fetch_photo, :only => [ :show, :destroy, :thumbnail, :approve, :flag ]
   
   def index
     @page = params[:page].to_i
@@ -25,6 +25,7 @@ class Photos < Application
   end
   
   def create
+    @photo.user = current_user
     if @photo.save
       flash[:notice] = 'Great success'
       redirect url(:photo, @photo)
@@ -33,12 +34,12 @@ class Photos < Application
     end
   end
   
-  def delete
+  def destroy
     raise NotAcceptable unless request.xhr?
-    if current_user and current_user.administrator?
-      render
+    if @photo.destroy
+      render '', :status => 200
     else
-      redirect '/'
+      render '', :status => 401
     end
   end
   
@@ -53,6 +54,31 @@ class Photos < Application
     else
       send_file Merb.root + '/public/images/image-missing.png', :disposition => 'inline'
     end
+  end
+  
+  def approve
+    raise NotAllowed unless request.xhr?
+    @photo.approved = true
+    if @photo.save
+      render '', :status => 200
+    else
+      render '', :status => 401
+    end
+  end
+  
+  def flag
+    raise NotAllowed unless request.xhr?
+    pf = PhotoFlag.new :photo_id => @photo.id, :user_id => current_user.id
+    if pf.save
+      render '', :status => 200
+    else
+      render '', :status => 401
+    end
+  end
+  
+  def moderate
+    @photos = Photo.find :all, :order => "photo_flags_count DESC, id ASC", :conditions => [ 'approved = ?', false ]
+    render
   end
   
   protected

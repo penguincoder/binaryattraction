@@ -1,6 +1,6 @@
 #main_photo_container
   = partial 'photos/photo'
-
+  
   - v = Vote.voted_for? @photo, current_user
   - if v
     #mini_container.centered

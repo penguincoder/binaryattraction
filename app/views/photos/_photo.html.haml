@@ -1,22 +1,14 @@
 :javascript
-  function add_favorite(pid)
-  {
-    new Ajax.Request('#{url(:favorites)}?photo_id=' + pid, { onSuccess: function(){ $('favorite_add').hide(); $('favorite_remove').show(); new Effect.Highlight($('favorites')); } });
-  }
-  function remove_favorite(del_url)
-  {
-    new Ajax.Request(del_url, { onSuccess: function(){ $('favorite_remove').hide(); $('favorite_add').show(); new Effect.Highlight($('favorites')); } });
-  }
-  function transition_out_controls()
+  function transition_voting_controls()
   {
     if($('to_be_unvoted').style.display == 'none')
       return false;
     new Effect.DropOut($('to_be_unvoted'));
-    setTimeout('transition_in_controls()', 1000);
+    setTimeout("new Effect.Appear($('to_be_voted'));", 1000);
   }
-  function transition_in_controls()
+  function notify_controls()
   {
-    new Effect.Appear($('to_be_voted'));
+    new Effect.Highlight($('photo_controls'));
   }
 
 %style{ :type => "text/css" }
@@ -42,18 +34,29 @@
 
 %div.centered{ :style => "width: #{@photo.width rescue 50}px" }
   - if @photo and @photo.exist?
-    #photo_controls
-      - unless Vote.voted_for?(@photo, current_user) or params[:controller] =~ /vote/i
-        %span#to_be_unvoted
-          %a{ :href => '#', :onclick => "transition_out_controls(); return false;" } Vote!
+    - if logged_in?
+      #photo_controls
+        - unless Vote.voted_for?(@photo, current_user) or params[:controller] =~ /vote/i
+          %span#to_be_unvoted
+            %a{ :href => '#', :onclick => "transition_voting_controls(); return false;" } Vote!
+            |
+        - if !@photo.approved? and !@photo.flagged?(current_user)
+          %span#to_be_flagged
+            %a{ :href => '#', :onclick => "new Ajax.Request('#{url(:flag_photo, @photo)}', { method: 'get', onSuccess: function() { $('to_be_flagged').hide(); notify_controls(); } }); return false;" } Flag inappropriate
+            |
+        - if !@photo.approved? and administrator?
+          %span#to_be_approved
+            %a{ :href => '#', :onclick => "new Ajax.Request('#{url(:approve_photo, @photo)}', { method: 'get', onSuccess: function() { $('to_be_approved').hide(); if($('to_be_flagged')){$('to_be_flagged').hide();}; notify_controls(); } }); return false;" } Approve
+            |
+        - if administrator?
+          %a{ :href => '#', :onclick => "if(confirm('Are you sure you want to destroy this photo?')){ new Ajax.Request('#{url(:photo, @photo)}', { method: 'delete', onSuccess: function() { window.location.href = '#{url(:photos)}'; } }); return false; }" } Destroy
           |
-      - if logged_in?
         %span#favorites
           %span#favorite_add{ :style => (current_user.photo_favorites.detect { |f| f.photo_id == @photo.id }.nil? ? '' : "display: none;") }
-            %a{ :href => '#', :onclick => "add_favorite(#{@photo.id}); return false;" }
+            %a{ :href => '#', :onclick => "new Ajax.Request('#{url(:favorites, :photo_id => @photo.id)}', { onSuccess: function(){ $('favorite_add').hide(); new Effect.Appear($('favorite_remove')); notify_controls(); } }); return false;" }
               Add as favorite
           %span#favorite_remove{ :style => (current_user.photo_favorites.detect { |f| f.photo_id == @photo.id }.nil? ? "display: none;" : '') }
-            %a{ :href => '#', :onclick => "remove_favorite('#{url(:favorite, :id => @photo.id)}?_method=delete'); return false;" }
+            %a{ :href => '#', :onclick => "new Ajax.Request('#{url(:favorite, :id => @photo.id)}', { method: 'delete', onSuccess: function(){ $('favorite_remove').hide(); new Effect.Appear($('favorite_add')); notify_controls(); } }); return false;" }
               Remove favorite
     %img{ :src => @photo.pathname, :alt => @photo.filename, :width => @photo.width, :height => @photo.height }
   - else

@@ -1,0 +1,22 @@
+%style{ :type => 'text/css' }
+  :sass
+    .moderate_box
+      :width 310px
+      :height 320px
+      :margin 10px auto
+      :text-align center
+      img
+        :display block
+        :margin-left auto
+        :margin-right auto
+
+%h1 Photo moderation panel
+
+- @photos.each do |photo|
+  %div.moderate_box{ :id => "photo_#{photo.id}" }
+    %img{ :src => photo_url(photo, 300, 300) }
+    %a{ :href => '#', :onclick => "new Ajax.Request('#{url(:approve_photo, photo)}', { method: 'get', onSuccess: function() { new Effect.DropOut($('photo_#{photo.id}')); } }); return false;" } Approve
+    |
+    == #{photo.photo_flags_count} Flags
+    |
+    %a{ :href => '#', :onclick => "if(confirm('Are you sure you want to destroy this photo?')){ new Ajax.Request('#{url(:photo, photo)}', { method: 'delete', onSuccess: function() { new Effect.DropOut($('photo_#{photo.id}')); } }); return false; }" } Destroy
