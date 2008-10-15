@@ -11,7 +11,7 @@ module Merb
     def photo_url(photo, w = nil, h = nil)
       w = photo.width if w.nil? or w.to_i > photo.width
       h = photo.height if h.nil? or h.to_i > photo.height
-      "/photos/#{photo.id}/thumbnail?width=#{w}&height=#{h}"
+      url :thumbnail_photo, photo, :width => w, :height => h
     end
     
     def indicator
