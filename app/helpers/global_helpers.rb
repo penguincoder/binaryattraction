@@ -33,6 +33,7 @@ module Merb
         else
           @menu_items << { :img => '/images/system-users.png', :name => 'Sign up', :title => 'Sign up for an account', :href => url(:new_user) }
           @menu_items << { :img => '/images/system-lock-screen.png', :name => 'Log in', :title => 'Log in with your account', :href => url(:new_session) }
+          @menu_items << { :img => '/images/mail-message-new.png', :name => 'Lookup email', :title => 'Look up photos by email address', :href => url(:controller => :photos, :action => :by_email) }
         end
       end
       @menu_items
