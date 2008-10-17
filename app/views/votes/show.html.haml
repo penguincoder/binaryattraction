@@ -11,10 +11,4 @@
 %div.user_stat_chart
   = stat_chart
 
-%p== <strong>Zero:</strong> <tt>#{@user.votes.select { |v| v.zero? }.size}</tt>
-
-%p== <strong>One:</strong> <tt>#{@user.votes.select { |v| v.one? }.size}</tt>
-
-%p== <strong>Oneness:</strong> <tt>#{"%.1f%%" % (@user.votes.select { |v| v.one? }.size.to_f / @user.votes.size.to_f * 100.0)}</tt>
-
 %br{ :style => 'clear: both' }
