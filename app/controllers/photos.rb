@@ -81,6 +81,28 @@ class Photos < Application
     render
   end
   
+  def by_email
+    if request.post? and !params[:email].to_s.empty?
+      redirect url(:action => :by_hash, :id => User.salted_string(params[:email]))
+    else
+      render
+    end
+  end
+  
+  def by_hash
+    @photo_ids = Photo.find(:all, :select => 'id', :conditions => [ 'email_hash = ?', params[:id] ]).collect { |p| p.id } rescue []
+    @page = params[:page].to_i
+    per_page = 4
+    @photos = Photo.find :all, :conditions => "id IN (#{@photo_ids.join(',')})", :limit => per_page, :offset => (@page * per_page)
+    @votes = Vote.find :all, :conditions => "photo_id IN (#{@photo_ids.join(',')})"
+    @page_count = (@photo_ids.size.to_f / per_page.to_f).ceil
+    if params[:id].to_s.empty? or @photo_ids.empty? or @votes.empty?
+      redirect url(:action => :by_email)
+    else
+      render
+    end
+  end
+  
   protected
   
   def make_photo

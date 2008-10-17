@@ -1,0 +1,8 @@
+= form :action => url(:action => :by_email) do
+  %fieldset
+    %legend What is your email address?
+    %p
+      %label{ :for => 'email' }
+        Email
+        = text_field :name => 'email', :id => 'email'
+    = submit 'Go'
