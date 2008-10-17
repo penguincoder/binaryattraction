@@ -33,8 +33,23 @@ h1 {
   text-align: center;
 }
 
-h1 img {
+h1 img, li img {
   vertical-align: middle;
+}
+
+ul, ol {
+  width: 450px;
+}
+
+li {
+  background-color: #e9b96e;
+  border: 1px solid #c17d11;
+  padding: 3px 10px;
+  margin-bottom: 5px;
+}
+
+li:hover {
+  background-color: #eacc9c;
 }
 
 #container {
@@ -98,7 +113,7 @@ h1 img {
   background-color: #e9b96e;
 }
 
-#tool_bar a {
+#tool_bar a, li a {
   font-weight: bold;
   font-size: 1.1em;
   padding-left: 3px;
@@ -107,7 +122,7 @@ h1 img {
   color: #8f5902;
 }
 
-#tool_bar a:hover {
+#tool_bar a:hover, li a:hover {
   color: #5e3a01;
 }
 
