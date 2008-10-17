@@ -7,7 +7,7 @@ class Application < Merb::Controller
     if session[:user_id]
       (@_user ||= User.find(session[:user_id]))
     else
-      (cookies[:session_id] ||= session[:session_id])
+      (cookies[:anonymous_id] ||= session.session_id)
     end
   end
   
