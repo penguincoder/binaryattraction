@@ -19,4 +19,6 @@
     |
     == #{photo.photo_flags_count} Flags
     |
+    == #{photo.user.user_name rescue 'Unknown'}
+    |
     %a{ :href => '#', :onclick => "if(confirm('Are you sure you want to destroy this photo?')){ new Ajax.Request('#{url(:photo, photo)}', { method: 'delete', onSuccess: function() { new Effect.DropOut($('photo_#{photo.id}')); } }); return false; }" } Destroy
