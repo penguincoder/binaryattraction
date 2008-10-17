@@ -2,8 +2,11 @@ class Vote < ActiveRecord::Base
   belongs_to :photo
   belongs_to :user
   
-  validate :unique_for_user
   validates_presence_of :photo_id
+  validates_uniqueness_of :user_id, :scope => :photo_id
+  validates_uniqueness_of :session_id, :scope => :photo_id
+  validates_presence_of :session_id, :if => lambda { |x| x.user_id.to_s.empty? }
+  validates_presence_of :user_id, :if => lambda { |x| x.session_id.to_s.empty? }
   
   attr_protected :user_id
   attr_protected :session_id
@@ -46,7 +49,7 @@ class Vote < ActiveRecord::Base
   def self.voted_for?(photo, user)
     c = [ 'photo_id = :pid' ]
     v = { :pid => (photo.respond_to?('id') ? photo.id : photo) }
-    if user.respond_to?('id')
+    if user.respond_to?('user_name')
       c << 'user_id = :uid'
       v[:uid] = user.id
     else
@@ -61,7 +64,7 @@ class Vote < ActiveRecord::Base
   # photo ids.
   #
   def self.voted_photo_ids(user)
-    c = if user.respond_to?('id')
+    c = if user.respond_to?('user_name')
       "votes.user_id = #{user.id}"
     else
       "votes.session_id = '#{user}'"
@@ -70,19 +73,6 @@ class Vote < ActiveRecord::Base
   end
   
   protected
-  
-  ##
-  # Make sure you can't vote on a photo more than once.
-  #
-  def unique_for_user
-    if self.user.to_s.empty? and self.session_id.empty?
-      self.errors.add(:vote, 'must have an owner')
-    elsif self.user and Vote.voted_for?(self.photo, self.user)
-      self.errors.add(:vote, 'has already been collected for this photo')
-    elsif self.session_id and Vote.voted_for?(self.photo, self.session_id)
-      self.errors.add(:anonymous, 'vote has already been collected')
-    end
-  end
   
   ##
   # Recalc the stats in the Photo for specific stats don't have to query the

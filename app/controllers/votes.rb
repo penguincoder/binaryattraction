@@ -27,7 +27,7 @@ class Votes < Application
     @photo = Photo.find params[:photo_id] rescue nil
     @vote = Vote.new :photo_id => (@photo.id rescue true), :vote => (params[:one].to_s == 'true')
     if logged_in?
-      @vote.user = current_user
+      @vote.user_id = current_user.id
     else
       @vote.session_id = current_user
     end
@@ -37,7 +37,7 @@ class Votes < Application
     else
       emsg = "The vote failed: "
       @vote.errors.each_full { |e| emsg += e + ' ' }
-      render emsg, :status => 401
+      render emsg, :status => 401, :layout => false
     end
   end
   
@@ -47,6 +47,8 @@ class Votes < Application
     # just a simple check to not allow you to vote on a photo twice. model
     # business logic will fail this, too, but just to make sure you don't...
     @photo = Photo.find params[:photo_id] if params[:photo_id]
-    @photo = Photo.next_available_votable_photo current_user if @photo.nil? or (logged_in? and current_user.voted_for?(@photo))
+    if @photo.nil? or Vote.voted_for?(@photo, current_user)
+      @photo = Photo.next_available_votable_photo current_user
+    end
   end
 end
