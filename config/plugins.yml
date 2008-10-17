@@ -1,0 +1,5 @@
+:exceptions:
+  :app_name: BinaryAttraction
+  :email_from: exceptions@binaryattraction.com
+  :email_addresses:
+  - webmaster@binaryattraction.com

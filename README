@@ -8,6 +8,7 @@ Dependencies:
   * Haml / Sass
   * Merb Helpers
   * Merb Has Flash
+  * newbamboo Merb Exceptions
   * Recaptcha account
 
 Released under GNU GPLv2
