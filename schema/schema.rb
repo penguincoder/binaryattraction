@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 8) do
     t.string   "email_hash"
     t.integer  "width"
     t.integer  "height"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.boolean  "approved",          :default => false
     t.integer  "votes_count",       :default => 0
@@ -46,6 +47,7 @@ ActiveRecord::Schema.define(:version => 8) do
   add_index "photos", ["approved"], :name => "index_photos_on_approved"
   add_index "photos", ["oneness"], :name => "index_photos_on_oneness"
   add_index "photos", ["votes_count"], :name => "index_photos_on_votes_count"
+  add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
   add_index "photos", ["email_hash"], :name => "index_photos_on_email_hash"
 
   create_table "sessions", :force => true do |t|
