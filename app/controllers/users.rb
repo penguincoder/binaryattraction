@@ -1,6 +1,6 @@
 class Users < Application
-  before :fetch_allowed_user, :only => [ :show, :edit, :update, :delete ]
-  before :prepare_user, :only => [ :show, :edit, :update, :delete ]
+  before :fetch_allowed_user, :only => [ :edit, :update, :destroy ]
+  before :administrator?, :only => [ :destroy ]
   
   include Ambethia::ReCaptcha::Controller
   
@@ -11,10 +11,6 @@ class Users < Application
     else
       redirect url(:user, :id => current_user.user_name)
     end
-  end
-  
-  def show
-    render
   end
   
   def new
@@ -39,27 +35,23 @@ class Users < Application
   end
   
   def update
+    @user.attributes = params[:user] if params[:user]
     if @user.save
       flash[:notice] = 'Great success'
-      redirect url(:users)
+      redirect '/'
     else
       render :edit
     end
   end
   
-  def delete
+  def destroy
+    raise NotAllowed unless request.xhr?
     if @user.destroy
       flash[:notice] = "Epic failure, goodbye #{@user.user_name}"
       reset_session if @user.id == session[:user_id]
     else
-      flash[:error] = 'That does not work...'
+      flash[:error] = 'That did not work...'
     end
     redirect url(:users)
-  end
-  
-  protected
-  
-  def prepare_user
-    @user.attributes = params[:user] if params[:user] and request.post?
   end
 end
