@@ -1,52 +1,31 @@
-- dim = 100
+- dim = 300
 %style{ :type => 'text/css' }
   :sass
-    .top_rated_container
-      :width 600px
-      :margin-left auto
-      :margin-right auto
-    .top_rated
-      :width 150px
-      :height 130px
-      :margin 10px
-      :padding 5px
-      :border 1px solid #c17d11
-      :background-color #e9b96e
-      :float left
+    li
       img
         :display block
-        :margin 5px auto 5px auto
-        :margin-left auto
-        :margin-right auto
-      h3
+        :margin 0px auto
+      p
         :text-align center
-    .top_rated_number
-      :float left
-      :font-size 12px
-      :font-weight bold
-      :padding 3px
-      :background-color #ffffff
 
 %h2 Top oneness
 
-- @top_oneness.each_with_index do |p, index|
-  %div.top_rated_container
-    %div.top_rated
-      %span.top_rated_number= index + 1
+%ol
+  - @top_oneness.each_with_index do |p, index|
+    %li
       %a{ :href => url(:photo, p) }
         %img{ :src => photo_url(p, dim, dim) }
-      %h3== #{p.oneness}%
+      %p== <strong>Oneness:</strong> #{p.oneness}% <strong>Votes 0:</strong> #{p.zero_votes} <strong>Votes 1:</strong> #{p.one_votes} <strong>Total Votes:</strong> #{p.votes_count}
 
 %br{ :style => 'clear: both' }
 
 %h2 Top voted
 
-- @top_voted.each_with_index do |p, index|
-  %div.top_rated_container
-    %div.top_rated
-      %span.top_rated_number= index + 1
+%ol
+  - @top_voted.each_with_index do |p, index|
+    %li
       %a{ :href => url(:photo, p) }
         %img{ :src => photo_url(p, dim, dim) }
-      %h3= p.votes_count
+      %p== <strong>Oneness:</strong> #{p.oneness}% <strong>Votes 0:</strong> #{p.zero_votes} <strong>Votes 1:</strong> #{p.one_votes} <strong>Total Votes:</strong> #{p.votes_count}
 
 %br{ :style => 'clear: both' }
