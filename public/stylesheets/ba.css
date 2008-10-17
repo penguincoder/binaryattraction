@@ -52,6 +52,11 @@ li:hover {
   background-color: #eacc9c;
 }
 
+li p {
+  margin: 2px auto;
+  padding: 2px;
+}
+
 #container {
   margin: 0 auto;
   width: 750px;
@@ -243,9 +248,9 @@ li:hover {
 
 .user_stat_chart {
   float: left;
-  width: 300px;
-  height: 200px;
-  margin: 0px 10px 5px 25px;
+  width: 415px;
+  height: 275px;
+  margin: 0px 5px 5px 25px;
   border: 1px solid #8f5902;
 }
 
