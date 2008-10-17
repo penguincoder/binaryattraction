@@ -1,6 +1,6 @@
 = error_messages @user
 
-= form :action => url(:edit_user, :id => @user.user_name) do
+= form :action => url(:user, :id => @user.user_name), :method => :put do
   %fieldset
     %legend== Changing settings for user <em>#{@user.user_name}</em>
     %p
