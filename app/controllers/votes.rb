@@ -4,7 +4,7 @@ class Votes < Application
   def show
     @page = params[:page].to_i
     per_page = 4
-    @votes = @user.votes.find :all, :limit => 4, :offset => (@page * 4)
+    @votes = @user.votes.find :all, :limit => per_page, :offset => (@page * per_page)
     @page_count = (@user.votes.size.to_f / per_page.to_f).ceil
     if @votes.empty?
       flash[:notice] = 'You need to vote, first'
