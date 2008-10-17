@@ -19,6 +19,14 @@ class Application < Merb::Controller
     logged_in? and current_user and current_user.administrator?
   end
   
+  def valid_anonymous_user?
+    !session[:validated_anonymous_user].nil?
+  end
+  
+  def valid_anonymous_user!
+    session[:validated_anonymous_user] = true
+  end
+  
   def reset_session
     session[:user_id] = nil
   end

@@ -11,6 +11,7 @@ class Sessions < Application
     user = User.find_by_user_name params[:user_name]
     if user and user.authenticated_against?(params[:password])
       session[:user_id] = user.id
+      valid_anonymous_user!
       if request.xhr?
         render '', :status => 200
       else

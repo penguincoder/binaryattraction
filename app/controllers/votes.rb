@@ -1,4 +1,5 @@
 class Votes < Application
+  before :validate_anonymous_user
   before :fetch_allowed_user, :only => [ :show ]
   
   def show
@@ -49,6 +50,15 @@ class Votes < Application
     @photo = Photo.find params[:photo_id] if params[:photo_id]
     if @photo.nil? or Vote.voted_for?(@photo, current_user)
       @photo = Photo.next_available_votable_photo current_user
+    end
+  end
+  
+  def validate_anonymous_user
+    if !logged_in? and !valid_anonymous_user?
+      flash[:notice] = 'You must prove that you are a human to continue.'
+      redirect '/validate_anonymous_user'
+    else
+      true
     end
   end
 end

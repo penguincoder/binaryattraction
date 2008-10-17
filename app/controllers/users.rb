@@ -54,4 +54,20 @@ class Users < Application
     end
     redirect url(:users)
   end
+  
+  def validate_anonymous_user
+    if logged_in? or valid_anonymous_user?
+      flash[:notice] = 'You are already good, doofus.'
+      redirect '/'
+    elsif request.post? and !verify_recaptcha
+      flash.now[:error] = 'That does not work. Try again.'
+      render
+    elsif request.post?
+      valid_anonymous_user!
+      flash[:notice] = 'Great success!'
+      redirect url(:new_vote)
+    else
+      render
+    end
+  end
 end
