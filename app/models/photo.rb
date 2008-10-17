@@ -1,7 +1,7 @@
 class Photo < ActiveRecord::Base
   attr_accessor :email
   attr_accessor :file
-  attr_protected :email_hash
+  attr_protected :email_hash, :approved
   
   validates_presence_of :user_id
   
