@@ -30,6 +30,8 @@
             - if administrator?
               %br
               %a{ :href => url(:moderate_photos) } Moderate
+              %br
+              %a{ :href => url(:users) } Voters
       #tool_bar
         - menu_items.each do |menu_item|
           %a{ :href => menu_item[:href], :title => menu_item[:title] }
