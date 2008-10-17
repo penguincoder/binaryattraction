@@ -1,9 +1,15 @@
-%h1 Peoples.
+%h1 Peoples
 
-%ul
+%style{ :type => 'text/css' }
+  :sass
+    ol
+      :font-size 18px
+
+%ol
   - @users.each do |user|
-    %li
-      %a{ :href => url(:edit_user, :id => user.user_name) }= user.user_name
-      %a{ :href => url(:delete_user, :id => user.user_name), :onclick => "return confirm('Are you sure?');" }
+    %li{ :id => "user_#{user.id}" }
+      %a{ :href => url(:edit_user, :id => user.user_name), :title => 'Edit settings' }
+        %img{ :src => '/images/mail-attachment.png' }
+      %a{ :href => '#', :onclick => "if(confirm('Are you sure?')){new Ajax.Request('#{url(:user, :id => user.user_name)}', { method: 'delete', onSuccess: function(){ new Effect.DropOut($('user_#{user.id}')); }, onFailure: function() { new Effect.Highlight($('user_#{user.id}')); } });} return false;", :title => 'Destroy this user' }
         %img{ :src => '/images/user-trash.png' }
-
+      = user.user_name
