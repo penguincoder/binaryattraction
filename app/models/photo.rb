@@ -144,7 +144,7 @@ class Photo < ActiveRecord::Base
   # Renders the email into a hashed string for later retrieval.
   #
   def hashify_email
-    email_hash = User.salted_string(email) unless email.to_s.empty?
+    self.email_hash = User.salted_string(email) if self.email_hash.to_s.empty? and !email.to_s.empty?
     true
   end
   
