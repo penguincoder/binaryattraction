@@ -8,21 +8,10 @@
       p
         :text-align center
 
-%h2 Top oneness
+%h1 Top oneness
 
-%ol
+%ol.no_list_style.centered
   - @top_oneness.each_with_index do |p, index|
-    %li
-      %a{ :href => url(:photo, p) }
-        %img{ :src => photo_url(p, dim, dim) }
-      %p== <strong>Oneness:</strong> #{p.oneness}% <strong>Votes 0:</strong> #{p.zero_votes} <strong>Votes 1:</strong> #{p.one_votes} <strong>Total Votes:</strong> #{p.votes_count}
-
-%br{ :style => 'clear: both' }
-
-%h2 Top voted
-
-%ol
-  - @top_voted.each_with_index do |p, index|
     %li
       %a{ :href => url(:photo, p) }
         %img{ :src => photo_url(p, dim, dim) }
