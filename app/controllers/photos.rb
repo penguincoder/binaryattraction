@@ -93,8 +93,8 @@ class Photos < Application
     @photo_ids = Photo.find(:all, :select => 'id', :conditions => [ 'email_hash = ?', params[:id] ]).collect { |p| p.id } rescue []
     @page = params[:page].to_i
     per_page = 4
-    @photos = Photo.find :all, :conditions => "id IN (#{@photo_ids.join(',')})", :limit => per_page, :offset => (@page * per_page)
-    @votes = Vote.find :all, :conditions => "photo_id IN (#{@photo_ids.join(',')})"
+    @photos = Photo.find :all, :conditions => "id IN (#{@photo_ids.join(',')})", :limit => per_page, :offset => (@page * per_page) rescue []
+    @votes = Vote.find :all, :conditions => "photo_id IN (#{@photo_ids.join(',')})" rescue []
     @page_count = (@photo_ids.size.to_f / per_page.to_f).ceil
     if params[:id].to_s.empty? or @photo_ids.empty? or @votes.empty?
       redirect url(:action => :by_email)
