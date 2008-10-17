@@ -25,7 +25,7 @@ class Photos < Application
   end
   
   def create
-    @photo.user = current_user
+    @photo.user_id = current_user.id
     if @photo.save
       flash[:notice] = 'Great success'
       redirect url(:photo, @photo)
