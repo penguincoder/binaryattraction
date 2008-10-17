@@ -1,4 +1,6 @@
 class Exceptions < Application
+  include MerbExceptions::ControllerExtensions
+  
   # handle NotFound exceptions (404)
   def not_found
     do_your_render_thing
