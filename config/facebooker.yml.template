@@ -1,0 +1,16 @@
+---
+development:
+ api_key: apikeyhere 
+ secret_key: secretkeyhere
+ canvas_page_name: binaryattraction    
+ callback_url: http://localhost:4567
+test:
+ api_key: apikeyhere 
+ secret_key: secretkeyhere
+ canvas_page_name: binaryattraction    
+ callback_url: http://localhost:4567
+production:
+ api_key: apikeyhere 
+ secret_key: secretkeyhere
+ canvas_page_name: binaryattraction    
+ callback_url: http://facebook.binaryattraction.com
