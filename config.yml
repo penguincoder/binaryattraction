@@ -7,7 +7,7 @@
     port: 12501
     pid: /webapp/binaryattraction/log/sinatra.pid
     rackup: /webapp/binaryattraction/config.ru
-    log: /webapp/binaryattraction/sinatra.log
+    log: /webapp/binaryattraction/log/sinatra.log
     max_conns: 1024
     timeout: 30
     max_persistent_conns: 512
