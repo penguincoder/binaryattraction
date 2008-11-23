@@ -9,9 +9,13 @@ module Merb
     end
     
     def photo_url(photo, w = nil, h = nil)
-      w = photo.width if w.nil? or w.to_i > photo.width
-      h = photo.height if h.nil? or h.to_i > photo.height
-      url :thumbnail_photo, photo, :width => w, :height => h
+      if photo.facebook_id
+        '/images/image-missing.png'
+      else
+        w = photo.width if w.nil? or w.to_i > photo.width
+        h = photo.height if h.nil? or h.to_i > photo.height
+        url :thumbnail_photo, photo, :width => w, :height => h
+      end
     end
     
     def indicator
