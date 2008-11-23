@@ -1,11 +1,6 @@
-#scrolling_photo_block_container
-  = pagination 'scrolling_photo_block', url(:controller => :photos, :action => :by_hash, :id => params[:id])
-  #scrolling_photo_block
-    = partial 'photos/stats_for_email_hash'
-
 %h1== Stats for your photos
 
-%div.user_stat_chart
+%div.centered{ :style => 'width: 415px' }
   = stat_chart
 
 %br{ :style => 'clear: both' }

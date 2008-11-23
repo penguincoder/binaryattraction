@@ -7,8 +7,8 @@ class Photos < Application
   def index
     @page = params[:page].to_i
     per_page = 24
-    @page_count = (Photo.count(:id).to_f / per_page.to_f).ceil
-    @photos = Photo.find :all, :order => 'id DESC', :limit => per_page, :offset => (per_page * @page)
+    @page_count = (Photo.count(:id, :conditions => 'facebook_id IS NULL').to_f / per_page.to_f).ceil
+    @photos = Photo.find :all, :order => 'id DESC', :limit => per_page, :offset => (per_page * @page), :conditions => 'facebook_id IS NULL'
     if request.xhr?
       partial 'photos/photo_browser'
     else
@@ -90,12 +90,8 @@ class Photos < Application
   end
   
   def by_hash
-    @photo_ids = Photo.find(:all, :select => 'id', :conditions => [ 'email_hash = ?', params[:id] ]).collect { |p| p.id } rescue []
-    @page = params[:page].to_i
-    per_page = 4
-    @photos = Photo.find :all, :conditions => "id IN (#{@photo_ids.join(',')})", :limit => per_page, :offset => (@page * per_page) rescue []
+    @photo_ids = Photo.find(:all, :select => 'id', :conditions => [ 'email_hash = ?', params[:id] ]).collect(&:id) rescue []
     @votes = Vote.find :all, :conditions => "photo_id IN (#{@photo_ids.join(',')})" rescue []
-    @page_count = (@photo_ids.size.to_f / per_page.to_f).ceil
     if params[:id].to_s.empty? or @photo_ids.empty? or @votes.empty?
       redirect url(:action => :by_email)
     else
