@@ -424,7 +424,7 @@ __END__
   %img#ajax_loading{ :alt => 'loading', :src => 'http://static.ak.fbcdn.net/images/upload_progress.gif?1:25923' }
 %br{ :style => 'clear: both' }
 %div#ba_content
-  %img{ :src => 'http://binaryattraction.com/images/binarattraction.png', :style => 'display: block; margin-left: auto; margin-right: auto' }
+  %img{ :src => 'http://binaryattraction.com/images/binaryattraction.png', :style => 'display: block; margin-left: auto; margin-right: auto' }
   %h1 What this is all about
   %blockquote
     All you young guys are on a binary system. It's either <tt>0</tt> or <tt>1</tt>.
