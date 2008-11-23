@@ -161,6 +161,16 @@ __END__
   :sass
     h1
       text-align: center
+    blockquote
+      font-size: 16px
+      padding: 5px 0px 5px 15px
+      background-color: #eeeeee
+      border-top: 1px dashed #9f9f9f
+      border-right: 1px dashed #9f9f9f
+      border-bottom: 1px solid #d4d4d4
+      border-left: 1px solid #d4d4d4
+      em
+        margin-left: 20px
     .ftabs
       border-bottom: 1px solid #CCCCCC
       padding:0 10px 0 8px
@@ -373,9 +383,18 @@ __END__
   %img#ajax_loading{ :alt => 'loading', :src => 'http://static.ak.fbcdn.net/images/upload_progress.gif?1:25923' }
 %br{ :style => 'clear: both' }
 %div#ba_content
-  %h1 Welcome to Binary Attraction
+  %img{ :src => 'http://binaryattraction.com/images/binarattraction.png', :style => 'display: block; margin-left: auto; margin-right: auto' }
+  %h1 What this is all about
+  %blockquote
+    All you young guys are on a binary system. It's either <tt>0</tt> or <tt>1</tt>.
+    %br
+    %em Larry Bell
+  %blockquote
+    All you old guys are on the analog system. Join the digital revolution.
+    %br
+    %em Ross Bagwell
+  %br
   %p.caption{ :style => 'text-align: center' } Check out our <a href="http://binaryattraction.com">home page</a> | Produced by <a href="http://penguincoder.org">PenguinCoder</a>
-  %p Check out all of the neat stuff we have lying around. Vote on some photos, upload some of yours, and check your stats. Beat your friends' oneness!
 
 @@ hall_of_fame
 %h1 Top oneness
