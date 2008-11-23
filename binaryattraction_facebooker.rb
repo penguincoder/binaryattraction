@@ -86,7 +86,7 @@ end
 
 # most oneable photos
 post '/hall_of_fame' do
-  @top_oneness = Photo.find :all, :order => 'oneness DESC, id DESC', :limit => 10, :conditions => 'oneness > 0'
+  @top_oneness = Photo.find :all, :order => 'oneness DESC, votes_count DESC, id DESC', :limit => 10, :conditions => 'oneness > 0'
   haml :hall_of_fame
 end
 
@@ -101,7 +101,7 @@ post '/vote' do
       @vote.errors.each_full { |m| log.info "* #{m}" }
     end
   end
-  @photo = Photo.next_available_votable_photo ba_user
+  @photo = Photo.next_available_votable_photo ba_user, true
   haml :vote
 end
 
@@ -296,6 +296,10 @@ __END__
         border: 1px solid #c17d11
         padding: 3px 10px
         margin-bottom: 10px
+        img
+          display: block
+          margin-left: auto
+          margin-right: auto
       p
         text-align: center
     #vote_container
