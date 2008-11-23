@@ -3,8 +3,9 @@ class Vote < ActiveRecord::Base
   belongs_to :user
   
   validates_presence_of :photo_id
+  validate :photo_id_cannot_be_zero
   validates_uniqueness_of :user_id, :scope => :photo_id
-  validates_uniqueness_of :session_id, :scope => :photo_id
+  validates_uniqueness_of :session_id, :scope => [ :photo_id, :user_id ]
   validates_presence_of :session_id, :if => lambda { |x| x.user_id.to_s.empty? }
   validates_presence_of :user_id, :if => lambda { |x| x.session_id.to_s.empty? }
   
@@ -73,6 +74,14 @@ class Vote < ActiveRecord::Base
   end
   
   protected
+  
+  ##
+  # Checks to make sure the photo_id is not zero. There will never be a zero
+  # id of a Photo.
+  #
+  def photo_id_cannot_be_zero
+    self.errors.add :photo_id, 'cannot be zero' if self.photo_id.to_i == 0
+  end
   
   ##
   # Recalc the stats in the Photo for specific stats don't have to query the

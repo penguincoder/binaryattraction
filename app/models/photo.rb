@@ -14,8 +14,8 @@ class Photo < ActiveRecord::Base
   before_create :hashify_email
   before_save :set_oneness
   
-  after_create :create_directories
-  before_destroy :destroy_directories
+  after_create :create_directories, :if => lambda { |x| x.facebook_id.nil? }
+  before_destroy :destroy_directories, :if => lambda { |x| x.facebook_id.nil? }
   
   ##
   # Returns the path of the image relative to Merb's root.
@@ -77,6 +77,7 @@ class Photo < ActiveRecord::Base
   # Checks to make sure that the file exists and is an image.
   #
   def validate_image_sanity
+    return true if self.facebook_id
     if self.file.empty? or self.file[:tempfile].nil?
       self.errors.add(:file, 'is not a file')
     elsif self.file[:content_type] !~ /image\/\w+/

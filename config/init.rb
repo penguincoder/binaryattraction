@@ -2,7 +2,10 @@ Gem.clear_paths
 Gem.path.unshift(Merb.root / "gems")
 $LOAD_PATH.unshift(Merb.root / "lib")
 
-dependencies 'haml', 'sass', 'merb_helpers', 'merb_has_flash', 'digest/sha1', 'merb-mailer', 'recaptcha'
+dependencies 'haml', 'merb_helpers', 'merb_has_flash', 'merb-mailer'
+require 'digest/sha1'
+require 'sass'
+require 'recaptcha'
 require 'merb_exceptions'
 require 'RMagick'
 require 'memcache'

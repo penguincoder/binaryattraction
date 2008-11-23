@@ -9,15 +9,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 8) do
+ActiveRecord::Schema.define(:version => 9) do
 
   create_table "photo_favorites", :force => true do |t|
     t.integer "photo_id"
     t.integer "user_id"
   end
 
-  add_index "photo_favorites", ["user_id"], :name => "index_photo_favorites_on_user_id"
   add_index "photo_favorites", ["photo_id"], :name => "index_photo_favorites_on_photo_id"
+  add_index "photo_favorites", ["user_id"], :name => "index_photo_favorites_on_user_id"
 
   create_table "photo_flags", :force => true do |t|
     t.integer "user_id"
@@ -25,8 +25,8 @@ ActiveRecord::Schema.define(:version => 8) do
     t.string  "session_id"
   end
 
-  add_index "photo_flags", ["photo_id"], :name => "index_photo_flags_on_photo_id"
   add_index "photo_flags", ["user_id"], :name => "index_photo_flags_on_user_id"
+  add_index "photo_flags", ["photo_id"], :name => "index_photo_flags_on_photo_id"
 
   create_table "photos", :force => true do |t|
     t.string   "filename"
@@ -36,19 +36,21 @@ ActiveRecord::Schema.define(:version => 8) do
     t.integer  "height"
     t.integer  "user_id"
     t.datetime "created_at"
-    t.boolean  "approved",          :default => false
-    t.integer  "votes_count",       :default => 0
-    t.integer  "one_votes",         :default => 0
-    t.integer  "zero_votes",        :default => 0
+    t.boolean  "approved",                       :default => false
+    t.integer  "votes_count",                    :default => 0
+    t.integer  "one_votes",                      :default => 0
+    t.integer  "zero_votes",                     :default => 0
     t.float    "oneness"
-    t.integer  "photo_flags_count", :default => 0
+    t.integer  "photo_flags_count",              :default => 0
+    t.integer  "facebook_id",       :limit => 8
   end
 
-  add_index "photos", ["approved"], :name => "index_photos_on_approved"
-  add_index "photos", ["oneness"], :name => "index_photos_on_oneness"
-  add_index "photos", ["votes_count"], :name => "index_photos_on_votes_count"
-  add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
   add_index "photos", ["email_hash"], :name => "index_photos_on_email_hash"
+  add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
+  add_index "photos", ["votes_count"], :name => "index_photos_on_votes_count"
+  add_index "photos", ["oneness"], :name => "index_photos_on_oneness"
+  add_index "photos", ["approved"], :name => "index_photos_on_approved"
+  add_index "photos", ["facebook_id"], :name => "index_photos_on_facebook_id"
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id"
@@ -63,9 +65,11 @@ ActiveRecord::Schema.define(:version => 8) do
     t.string   "auth_token"
     t.boolean  "administrator"
     t.datetime "created_at"
+    t.integer  "facebook_id",   :limit => 8
   end
 
   add_index "users", ["user_name"], :name => "index_users_on_user_name"
+  add_index "users", ["facebook_id"], :name => "index_users_on_facebook_id"
 
   create_table "votes", :force => true do |t|
     t.integer "photo_id"
@@ -74,8 +78,8 @@ ActiveRecord::Schema.define(:version => 8) do
     t.boolean "vote"
   end
 
-  add_index "votes", ["session_id"], :name => "index_votes_on_session_id"
-  add_index "votes", ["user_id"], :name => "index_votes_on_user_id"
   add_index "votes", ["photo_id"], :name => "index_votes_on_photo_id"
+  add_index "votes", ["user_id"], :name => "index_votes_on_user_id"
+  add_index "votes", ["session_id"], :name => "index_votes_on_session_id"
 
 end
