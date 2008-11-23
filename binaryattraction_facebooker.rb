@@ -111,7 +111,7 @@ end
 # subtract all of the ones already added into ba
 post '/add_photos' do
   @page = params[:page].to_i
-  per_page = 20
+  per_page = 16
   if params[:save]
     (0..per_page).each do |pidx|
       fb_photo_id = params["photo_ids[#{pidx}]"]
@@ -264,7 +264,7 @@ __END__
       overflow: hidden
       padding: 0
       position: relative
-      width: 750px
+      width: 95%
       .table_wrapper
         padding: 0 5px
         margin: 0
@@ -488,7 +488,7 @@ __END__
       %div.table_wrapper
         %table
           %tbody
-            - @fb_photos.each_slice(5) do |slice|
+            - @fb_photos.each_slice(4) do |slice|
               %tr
                 - slice.each do |photo|
                   %td.photos_table_cell
