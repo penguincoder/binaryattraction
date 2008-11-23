@@ -49,14 +49,12 @@ class Photo < ActiveRecord::Base
   # Finds a Photo that the requested user can vote on by checking it against
   # all of the photos previously voted.
   #
-  def self.next_available_votable_photo(user)
+  def self.next_available_votable_photo(user, include_facebook = false)
     pids = Vote.voted_photo_ids(user)
-    c = if pids.empty?
-      nil
-    else
-      "photos.id NOT IN (#{pids.join(',')})"
-    end
-    self.find :first, :conditions => c, :order => 'id ASC'
+    c = []
+    c << "photos.id NOT IN (#{pids.join(',')})" unless pids.empty?
+    c << "photos.facebook_id IS NULL" unless include_facebook
+    self.find :first, :conditions => c.join(' AND '), :order => 'id ASC'
   end
   
   ##
