@@ -321,6 +321,43 @@ __END__
         width: 22px
         height: 22px
         float: left
+    .poll_results
+      width: 420px
+      h2
+        background-color: #6D84B4
+        color: #FFF
+        font-size: 11px
+        padding: 5px
+        margin: 0
+      .poll_answers
+        background: #FFF none repeat scroll 0 0
+        border-color: #CCCCCC
+        border-style: solid
+        border-width: 0 1px 1px
+        padding: 5px
+      p
+        margin: 0
+        font-weight: bold
+      table
+        margin: 10px 0 10px 0
+      .label
+        padding-right: 10px
+        text-align: right
+        font-size: 11px
+      .bar
+        background-attachment: scroll
+        background-color: #3B5998
+        background-image: none
+        background-position: 0 0
+        background-repeat: repeat
+        float: left
+        height: 18px
+        margin-right: 5px
+        color: #FFF
+        text-align: left
+        font-weight: bold
+        font-size: 13px
+        padding: 1px 1px 1px 3px
 
 :javascript
   function run_ajax_request(url, params)
@@ -460,46 +497,6 @@ __END__
     %input{ :type => 'button', :class => 'inputbutton', :value => 'Add Photos', :onclick => "add_photos(); return false;" }
 
 @@ stats
-%style{ :type => 'text/css' }
-  :sass
-    .poll_results
-      width: 420px
-      h2
-        background-color: #6D84B4
-        color: #FFF
-        font-size: 11px
-        padding: 5px
-        margin: 0
-      .poll_answers
-        background: #FFF none repeat scroll 0 0
-        border-color: #CCCCCC
-        border-style: solid
-        border-width: 0 1px 1px
-        padding: 5px
-      p
-        margin: 0
-        font-weight: bold
-      table
-        margin: 10px 0 10px 0
-      .label
-        padding-right: 10px
-        text-align: right
-        font-size: 11px
-      .bar
-        background-attachment: scroll
-        background-color: #3B5998
-        background-image: none
-        background-position: 0 0
-        background-repeat: repeat
-        float: left
-        height: 18px
-        margin-right: 5px
-        color: #FFF
-        text-align: left
-        font-weight: bold
-        font-size: 13px
-        padding: 1px 1px 1px 3px
-
 %div.poll_results
   %h2== Your oneness from #{@votes.size} votes
   %div.poll_answers
