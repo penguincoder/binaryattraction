@@ -4,8 +4,8 @@ class Vote < ActiveRecord::Base
   
   validates_presence_of :photo_id
   validate :photo_id_cannot_be_zero
-  validates_uniqueness_of :user_id, :scope => :photo_id
-  validates_uniqueness_of :session_id, :scope => [ :photo_id, :user_id ]
+  validates_uniqueness_of :user_id, :scope => :photo_id, :if => lambda { |x| x.session_id.to_s.empty? }
+  validates_uniqueness_of :session_id, :scope => :photo_id, :if => lambda { |x| !x.session_id.to_s.empty? }
   validates_presence_of :session_id, :if => lambda { |x| x.user_id.to_s.empty? }
   validates_presence_of :user_id, :if => lambda { |x| x.session_id.to_s.empty? }
   
