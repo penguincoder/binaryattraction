@@ -264,7 +264,7 @@ __END__
       overflow: hidden
       padding: 0
       position: relative
-      width: 95%
+      width: 100%
       .table_wrapper
         padding: 0 5px
         margin: 0
