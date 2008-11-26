@@ -8,3 +8,4 @@ Sinatra::Application.default_options.merge!(
 
 require 'binaryattraction_facebooker'
 run Sinatra.application
+

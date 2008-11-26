@@ -424,7 +424,7 @@ __END__
   %img#ajax_loading{ :alt => 'loading', :src => 'http://static.ak.fbcdn.net/images/upload_progress.gif?1:25923' }
 %br{ :style => 'clear: both' }
 %div#ba_content
-  %img{ :src => 'http://binaryattraction.com/images/binarattraction.png', :style => 'display: block; margin-left: auto; margin-right: auto' }
+  %img{ :src => 'http://binaryattraction.com/images/binaryattraction.png', :style => 'display: block; margin-left: auto; margin-right: auto' }
   %h1 What this is all about
   %blockquote
     All you young guys are on a binary system. It's either <tt>0</tt> or <tt>1</tt>.
@@ -538,5 +538,5 @@ __END__
           %td= ba_user.votes.select { |v| v.zero? }.size
 
 @@ invite
-%fb:request-form{ :type => 'Binary Attraction', :content => "Your friends think you should check out your oneness at <fb:req-choice url='http://apps.facebook.com/binaryattraction' label='Binary Attraction' />", :action => 'http://apps.binaryattraction.com/binaryattraction', :invite => true, :method => 'POST' }
+%fb:request-form{ :type => 'Binary Attraction', :content => "Your friends think you should check out your oneness at <fb:req-choice url='http://apps.facebook.com/binaryattraction' label='Binary Attraction' />", :action => 'http://apps.facebook.com/binaryattraction', :invite => true, :method => 'POST' }
   %fb:multi-friend-selector{ :actiontext => "Invite your friends to vote on ones (and not ones)", :showborder => true, :exclude_ids => session[:facebook_session].user.friends_with_this_app.map(&:id).join(","), :bypass => "cancel" }
