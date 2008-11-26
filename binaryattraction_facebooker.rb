@@ -16,7 +16,7 @@
 #
 
 # libraries used
-%w(rubygems frankie active_record yaml memcache memcache_util).each do |lib|
+%w(rubygems frankie mysql active_record yaml memcache memcache_util).each do |lib|
   require lib
 end
 # require AR models
