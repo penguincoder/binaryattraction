@@ -6,7 +6,7 @@ class Users < Application
   
   def index
     if current_user.administrator?
-      @users = User.find :all, :order => 'user_name ASC', :conditions => 'facebok_id IS NULL'
+      @users = User.find :all, :order => 'user_name ASC', :conditions => 'facebook_id IS NULL'
       render
     else
       redirect url(:user, :id => current_user.user_name)
