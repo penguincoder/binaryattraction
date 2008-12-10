@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :user_name, :if => lambda { |x| x.facebook_id.nil? }
   validates_format_of :user_name, :with => /[\w_-]+/, :if => lambda { |x| x.facebook_id.nil? }
   validates_presence_of :facebook_id, :if => lambda { |x| x.user_name.to_s.empty? }
-  validate :user_name_is_alphanumeric
+  validate :user_name_is_alphanumeric, :if => lambda { |x| x.facebook_id.nil? }
   
   has_many :photos, :dependent => :destroy
   has_many :votes, :dependent => :destroy, :order => 'votes.photo_id ASC'
@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
   protected
   
   def user_name_is_alphanumeric
-    if self.facebook_id.to_i == 0 and self.user_name.to_s =~ /[^A-Za-z0-9]/
+    if self.user_name.to_s =~ /[^A-Za-z0-9]/
       self.errors.add(:user_name, 'has illegal characters')
     end
   end
