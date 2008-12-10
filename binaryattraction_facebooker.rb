@@ -16,7 +16,7 @@
 #
 
 # libraries used
-%w(rubygems frankie active_record yaml memcache memcache_util).each do |lib|
+%w(rubygems frankie mysql active_record yaml memcache memcache_util).each do |lib|
   require lib
 end
 # require AR models
@@ -46,8 +46,9 @@ configure do
     log.debug "Using #{Sinatra.env} database environment"
     db_config = YAML::load_file(File.dirname(__FILE__) + '/config/database.yml')[Sinatra.env]
     ActiveRecord::Base.logger = log
-    ActiveRecord::Base.establish_connection db_config
     ActiveRecord::Base.allow_concurrency = true
+    ActiveRecord::Base.verification_timeout = 300
+    ActiveRecord::Base.establish_connection db_config
   rescue => exception
     log.fatal "There was a problem loading the database.yml file:"
     exception.backtrace.each do |msg|

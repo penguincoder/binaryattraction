@@ -5,8 +5,8 @@ class Users < Application
   include Ambethia::ReCaptcha::Controller
   
   def index
-    if current_user.administrator?
-      @users = User.find :all, :order => 'user_name ASC'
+    if logged_in? and current_user.administrator?
+      @users = User.find :all, :order => 'user_name ASC', :conditions => 'facebook_id IS NULL'
       render
     else
       redirect url(:user, :id => current_user.user_name)
